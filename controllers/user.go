@@ -14,6 +14,11 @@ import (
 type User struct {
 	ID        string    `json:"id"`
 	Name      string    `json:"name"`
+	Email     string    `json:"email"`
+	Phone     string    `json:"phone"`
+	Password  string    `json:"password"`
+	UserType  string    `json:"user_type"`
+	ImgUrl    string    `json:"img_url"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -48,12 +53,22 @@ func GetUsers(c *gin.Context) {
 func CreateUser(c *gin.Context) {
 	var user User
 	c.BindJSON(&user)
-	name := user.Name
 	id := guuid.New().String()
+	name := user.Name
+	email := user.Email
+	phone := user.Phone
+	password := user.Password
+	user_type := user.UserType
+	img_url := user.ImgUrl
 
 	newUser := User{
 		ID:        id,
 		Name:      name,
+		Email:     email,
+		Phone:     phone,
+		Password:  password,
+		UserType:  user_type,
+		ImgUrl:    img_url,
 		CreatedAt: time.Now(),
 	}
 
