@@ -117,10 +117,15 @@ func UpdateUser(c *gin.Context) {
 	var user User
 	c.BindJSON(&user)
 	name := user.Name
+	phone := user.Phone
+	img_url := user.ImgUrl
+	log.Printf(img_url)
 
 	newData := bson.M{
 		"$set": bson.M{
-			"name": name,
+			"name":    name,
+			"phone":   phone,
+			"imgurl": img_url,
 		},
 	}
 
