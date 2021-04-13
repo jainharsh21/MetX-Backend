@@ -17,7 +17,7 @@ func main() {
 	router := gin.Default()
 
 	// Route Handlers / Endpoints
-	routes.Routes(router)
+	routes.InitRoutes(router)
 
 	log.Fatal(router.Run(":3000"))
 }
