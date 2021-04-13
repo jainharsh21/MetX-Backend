@@ -10,21 +10,13 @@ import (
 	guuid "github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"github.com/jainharsh21/MetX-Backend/utils"
+	"github.com/jainharsh21/MetX-Backend/models"
 )
 
-type User struct {
-	ID        string    `json:"id"`
-	Name      string    `json:"name"`
-	Email     string    `json:"email"`
-	Phone     string    `json:"phone"`
-	Password  string    `json:"password"`
-	UserType  string    `json:"user_type"`
-	ImgUrl    string    `json:"img_url"`
-	CreatedAt time.Time `json:"created_at"`
-}
+
 
 func GetUsers(c *gin.Context) {
-	users := []User{}
+	users := []models.User{}
 	cursor, err := userCollection.Find(context.TODO(), bson.M{})
 
 	if err != nil {
@@ -38,7 +30,7 @@ func GetUsers(c *gin.Context) {
 
 	// Iterate through the returned cursor.
 	for cursor.Next(context.TODO()) {
-		var user User
+		var user models.User
 		cursor.Decode(&user)
 		users = append(users, user)
 	}
@@ -52,7 +44,7 @@ func GetUsers(c *gin.Context) {
 }
 
 func CreateUser(c *gin.Context) {
-	var user User
+	var user models.User
 	c.BindJSON(&user)
 	id := guuid.New().String()
 	name := user.Name
@@ -62,7 +54,7 @@ func CreateUser(c *gin.Context) {
 	user_type := user.UserType
 	img_url := user.ImgUrl
 
-	newUser := User{
+	newUser := models.User{
 		ID:        id,
 		Name:      name,
 		Email:     email,
@@ -94,7 +86,7 @@ func CreateUser(c *gin.Context) {
 func GetUser(c *gin.Context) {
 	userId := c.Param("userId")
 
-	user := User{}
+	user := models.User{}
 	err := userCollection.FindOne(context.TODO(), bson.M{"id": userId}).Decode(&user)
 	if err != nil {
 		log.Printf("Error while getting a single user, Reason: %v\n", err)
@@ -115,7 +107,7 @@ func GetUser(c *gin.Context) {
 
 func UpdateUser(c *gin.Context) {
 	userId := c.Param("userId")
-	var user User
+	var user models.User
 	c.BindJSON(&user)
 	name := user.Name
 	phone := user.Phone
@@ -168,5 +160,5 @@ func DeleteUser(c *gin.Context) {
 }
 
 func UserLogin(c *gin.Context) {
-	
+
 }
