@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	guuid "github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
+	"github.com/jainharsh21/MetX-Backend/utils"
 )
 
 type User struct {
@@ -66,7 +67,7 @@ func CreateUser(c *gin.Context) {
 		Name:      name,
 		Email:     email,
 		Phone:     phone,
-		Password:  password,
+		Password:  utils.HashPassword(password),
 		UserType:  user_type,
 		ImgUrl:    img_url,
 		CreatedAt: time.Now(),
