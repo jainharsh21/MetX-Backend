@@ -8,12 +8,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	guuid "github.com/google/uuid"
-	"go.mongodb.org/mongo-driver/bson"
-	"github.com/jainharsh21/MetX-Backend/utils"
 	"github.com/jainharsh21/MetX-Backend/models"
+	"github.com/jainharsh21/MetX-Backend/utils"
+	"go.mongodb.org/mongo-driver/bson"
 )
-
-
 
 func GetUsers(c *gin.Context) {
 	users := []models.User{}
@@ -116,8 +114,8 @@ func UpdateUser(c *gin.Context) {
 
 	newData := bson.M{
 		"$set": bson.M{
-			"name":    name,
-			"phone":   phone,
+			"name":   name,
+			"phone":  phone,
 			"imgurl": img_url,
 		},
 	}
@@ -160,5 +158,35 @@ func DeleteUser(c *gin.Context) {
 }
 
 func UserLogin(c *gin.Context) {
+	var user models.User
+	c.BindJSON(&user)
+	email := user.Email
+	password := user.Password
+	err := userCollection.FindOne(context.TODO(), bson.M{"email": email}).Decode(&user)
+	if err != nil {
+		log.Printf("Error, Reason: %v\n", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  400,
+			"message": "User Not Found",
+		})
+		return
+	}
+
+	isAuthorized := utils.CheckPasswordHash(password, user.Password)
+
+	if isAuthorized {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  http.StatusOK,
+			"message": "User Authorized",
+			"data":    user,
+		})
+		return
+	}
+
+	c.JSON(http.StatusUnauthorized, gin.H{
+		"status":  401,
+		"message": "Unauthorized",
+	})
+	return
 
 }
