@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	guuid "github.com/google/uuid"
 	"github.com/jainharsh21/MetX-Backend/models"
@@ -53,6 +54,8 @@ func CreateEvent(c *gin.Context) {
 	student_chapter_id := event.StudentChapID
 	tags := event.Tags
 
+	fmt.Println(event_at)
+
 	newEvent := models.Event{
 		ID:            id,
 		Name:          name,
@@ -64,8 +67,8 @@ func CreateEvent(c *gin.Context) {
 		StudentChapID: student_chapter_id,
 		Attendees:     []string{},
 		Tags:          tags,
-		EventAt:       event.EventAt,
-		EventAtOg:     event_at,
+		// EventAt:       event.EventAt,
+		EventAtOg: event_at,
 	}
 
 	_, err := eventCollection.InsertOne(context.TODO(), newEvent)
