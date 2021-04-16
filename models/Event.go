@@ -1,8 +1,6 @@
 package models
 
-import (
-	"time"
-)
+import "time"
 
 type Event struct {
 	ID            string    `json:"id"`
@@ -10,7 +8,8 @@ type Event struct {
 	ImgUrl        string    `json:"event_img_url"`
 	Description   string    `json:"description"`
 	Summary       string    `json:"summary"`
-	EventAt       time.Time `json:"event_at"`
+	EventAt       string    `json:"event_at"`
+	EventAtOg     time.Time `json:"eventAtOg,omitEmpty"`
 	Location      string    `json:"location"`
 	Fees          int       `json:"fees"`
 	StudentChapID string    `json:"student_chapter_id"`

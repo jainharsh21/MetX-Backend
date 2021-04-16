@@ -7,5 +7,6 @@ import (
 func InitRoutes(router *gin.Engine) {
 	generalRoutes(router)
 	userRoutes(router)
+	eventRoutes(router)
 }
 
