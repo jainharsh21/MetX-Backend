@@ -200,7 +200,3 @@ func AddAttendee(c *gin.Context) {
 	})
 	return
 }
-
-func getAttendees() {
-
-}
