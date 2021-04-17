@@ -119,7 +119,7 @@ func UpdateEvent(c *gin.Context) {
 	img_url := event.ImgUrl
 	description := event.Description
 	summary := event.Summary
-	event_at := event.EventAt
+	event_at, _ := time.Parse(time.RFC3339, event.EventAt)
 	location := event.Location
 	fees := event.Fees
 	tags := event.Tags
@@ -130,7 +130,7 @@ func UpdateEvent(c *gin.Context) {
 			"imgurl":      img_url,
 			"description": description,
 			"summary":     summary,
-			"eventat":     event_at,
+			"eventatog":   event_at,
 			"attendees":   []string{},
 			"location":    location,
 			"fees":        fees,
