@@ -7,6 +7,7 @@ import (
 
 func eventRoutes(router *gin.Engine) {
 	router.GET("/events", controllers.GetEvents)
+	router.PATCH("/events/:eventId/addAttendee/:attendeeId", controllers.AddAttendee)
 	router.POST("/event", controllers.CreateEvent)
 	router.GET("/event/:eventId", controllers.GetEvent)
 	router.PUT("/event/:eventId", controllers.UpdateEvent)

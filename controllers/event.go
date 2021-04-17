@@ -174,3 +174,33 @@ func DeleteEvent(c *gin.Context) {
 	})
 	return
 }
+
+func AddAttendee(c *gin.Context) {
+	eventId := c.Param("eventId")
+	attendeeId := c.Param("attendeeId")
+	newData := bson.M{
+		"$push": bson.M{
+			"attendees": attendeeId,
+		},
+	}
+
+	_, err := eventCollection.UpdateOne(context.TODO(), bson.M{"id": eventId}, newData)
+	if err != nil {
+		log.Printf("Error, Reason: %v\n", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  500,
+			"message": "Something went wrong",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  200,
+		"message": "Attendee Added Successfully",
+	})
+	return
+}
+
+func getAttendees() {
+
+}
